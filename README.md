@@ -27,7 +27,7 @@ class Jewellery {
 }
 
 const necklace = new Jewellery(1.5, 18);
-necklace.calculatePrice(1200); # 1350
+necklace.calculatePrice(1200); // 1350
 ```
 This looks simple. However, since the topic is premature abstraction, we want to complicate things immediately.
 
@@ -51,7 +51,7 @@ class Jewellery {
 }
 
 const necklace = new Jewellery(1.5, 18);
-necklace.getGramsOfPureGold(); # 1.125
+necklace.getGramsOfPureGold(); // 1.125
 ```
 This is better. But wait!
 
