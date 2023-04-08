@@ -112,5 +112,5 @@ There are <ins>2 important takeaways</ins> here:
 - Principles and any system of ideas serve as guides to help us tackle problems in programming. However, they should not be treated as the rule.
 
 ### [WIP] One Abstraction for Everything
-Another form of over abstraction is when reusable code tries to handle every possible usage. Ideally, reusable code should be modular and centralized. However, sometimes a consumer needs a different behavior from that code that may be difficult to integrate. Rather than localizing the implementation, we try to modify the reusable code to fit every requirement. For example:
+Another form of over abstraction is when reusable code tries to handle every possible usage. Ideally, when there are identical implementations, we make the code reusable. However, sometimes a consumer requires a different behavior from that code that may result to massive rework to maintain backwards compatibility. Rather than keeping it simple by localizing the implementation to the specific consumer, we try to modify the reusable code to fit every requirement. For example:
 
