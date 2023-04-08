@@ -111,6 +111,6 @@ There are <ins>2 important takeaways</ins> here:
 - Unless we know the full roadmap of features, _we cannot predict every scenario_.
 - Principles and any system of ideas serve as guides to help us tackle problems in programming. However, they should not be treated as the rule.
 
-## One Abstraction to Rule them all
+### One Abstraction to Rule them all
 Another form of over abstraction is when we have reusable logic that attempts to account for every usage of that unit of code. In most cases, we want reusable logic to have a centralized domain to make our code modular. However, there are instances when a _consumer_ requires a different behavior from that logic and we attempt to rework it to fit every requirement. Here's an example:
 
