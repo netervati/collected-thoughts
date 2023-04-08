@@ -8,7 +8,7 @@ There are 3 main considerations we make when dealing with code:
 
 **Abstraction** is a critical aspect of creating adaptable code. However, excessive use of abstraction can negatively impact velocity and performance.
 
-### Premature Abstraction
+### Hasty Abstraction
 Often times we make abstractions because we assume that the implementation will be reused in the future. In some cases, we also think that abstraction is necessary because we need to _abide_ to certain principles (e.g. SRP). For example:
 
 Let's say we're creating a class called `Jewellery` with the properties `carat` and `grams`. `Jewellery` should have a method that calculates its price based on its properties and the price of gold per gram. First, it finds the grams of pure gold using the computation `(carat / 24) * grams`. Then, it multiplies the result with the price of gold per gram. Finally, it rounds-off the result to a whole number. Below is a straightforward implementation:
@@ -29,7 +29,7 @@ class Jewellery {
 const necklace = new Jewellery(1.5, 18);
 necklace.calculatePrice(1200); // 1350
 ```
-This looks simple. However, since the topic is premature abstraction, we want to complicate things immediately.
+This looks simple. However, since the topic is hasty abstraction, we want to complicate things immediately.
 
 We may want to obtain the jewellery's grams of pure gold in the future. To cater this, we can extract the computation from `#calculatePrice` and move it to another method:
 
@@ -105,12 +105,12 @@ class Jewellery {
 ```
 Perfect!
 
-This is what **premature abstraction** looks like. We thought of a potential scenario in the future and made an abstraction on the basis that we will encounter it eventually. We also thought that the computation for finding the carat's gold content belongs to a different _domain_. Hence, we made another abstraction.
+This is what **hasty abstraction** looks like. We thought of a potential scenario in the future and made an abstraction on the basis that we will encounter it eventually. We also thought that the computation for finding the carat's gold content belongs to a different _domain_. Hence, we made another abstraction.
 
 There are <ins>2 important takeaways</ins> here:
 - Unless we know the full roadmap of features, _we cannot predict every scenario_.
 - Principles and any system of ideas serve as guides to help us tackle problems in programming. However, they should not be treated as the rule.
 
-### One Abstraction for Everything
+### [WIP] One Abstraction for Everything
 Another form of over abstraction is when reusable code tries to handle every possible usage. Ideally, reusable code should be modular and centralized. However, sometimes a consumer needs a different behavior from that code that may be difficult to integrate. Rather than localizing the implementation, we try to modify the reusable code to fit every requirement. For example:
 
