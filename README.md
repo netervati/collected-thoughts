@@ -114,3 +114,56 @@ There are <ins>2 important takeaways</ins> here:
 ### [WIP] One Abstraction for Everything
 Another form of over abstraction is when reusable code tries to handle every possible usage. Ideally, when there are identical implementations, we make the code reusable. However, sometimes a consumer requires a different behavior from that code that may result to massive rework to maintain backwards compatibility. Rather than keeping it simple by localizing the implementation to the specific consumer, we try to modify the reusable code to fit every requirement. For example:
 
+Let's say we have a generic function for computing rent and service cost in a beach resort. The computation is based on the number of service days and the type of availed service.
+```js
+const findDays = (from, to) => {
+  const dateDifference = new Date(to).getTime() - new Date(from).getTime();
+  const days = dateDifference / (1000 * 3600 * 24) + 1;
+
+  return days;
+};
+
+const computeServiceCost = (service, priceTable) => {
+  const days = findDays(service.dateFrom, service.dateTo);
+
+  return days * priceTable[service.type];
+};
+```
+Here `computeServiceCost` takes in a `service` object and a `priceTable` object. It calculates the total cost of the service requested by the client by first calling `findDays` to get the number of days of service. Next, it multiplies the days by the rate of the service type based on `priceTable`. Finally, the function returns the total service cost.
+
+Below demonstrates how the function is used when computing costs for renting rooms and meal services:
+```js
+const ROOM_RATES = {
+  'SINGLE': 1000,
+  'DOUBLE': 1750,
+  'SUITE': 2500,
+};
+
+const roomCost = computeServiceCost(
+  {
+    type: 'SINGLE',
+    dateFrom: '2023-01-09',
+    dateTo: '2023-01-13',
+  },
+  ROOM_RATES
+);
+
+const MEAL_SERVICE_RATES = {
+  '1ML': 150,
+  '2ML': 350,
+  '3ML': 500,
+};
+
+const mealServiceCost = computeServiceCost(
+  {
+    type: '3ML',
+    dateFrom: '2023-01-09',
+    dateTo: '2023-01-13',
+  },
+  MEAL_SERVICE_RATES
+);
+
+console.log('Room cost:', roomCost); // 5000
+console.log('Meal service cost', mealServiceCost); // 2500
+```
+
