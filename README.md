@@ -116,14 +116,14 @@ Another form of over abstraction is when reusable code tries to handle every pos
 
 Let's say we have a generic function for computing rent and service cost in a beach resort. The computation is based on the number of service days and the type of availed service.
 ```js
-const findDays = (from, to) => {
+function findDays(from, to) {
   const dateDifference = new Date(to).getTime() - new Date(from).getTime();
   const days = dateDifference / (1000 * 3600 * 24) + 1;
 
   return days;
 };
 
-const computeServiceCost = (service, priceTable) => {
+function computeServiceCost(service, priceTable) {
   const days = findDays(service.dateFrom, service.dateTo);
 
   return days * priceTable[service.type];
@@ -131,12 +131,12 @@ const computeServiceCost = (service, priceTable) => {
 ```
 Here `computeServiceCost` takes in a `service` object and a `priceTable` object. It calculates the total cost of the service requested by the client by first calling `findDays` to get the number of days of service. Next, it multiplies the days by the rate of the service type based on `priceTable`. Finally, the function returns the total service cost.
 
-Below demonstrates how the function is used when computing costs for renting rooms and meal services:
+Below shows how the function is used when computing costs for renting rooms and meal services:
 ```js
 const ROOM_RATES = {
-  'SINGLE': 1000,
-  'DOUBLE': 1750,
-  'SUITE': 2500,
+  SINGLE: 1000,
+  DOUBLE: 1750,
+  SUITE: 2500,
 };
 
 const roomCost = computeServiceCost(
@@ -149,9 +149,9 @@ const roomCost = computeServiceCost(
 );
 
 const MEAL_SERVICE_RATES = {
-  '1ML': 150,
-  '2ML': 350,
-  '3ML': 500,
+  1ML: 150,
+  2ML: 350,
+  3ML: 500,
 };
 
 const mealServiceCost = computeServiceCost(
@@ -166,4 +166,88 @@ const mealServiceCost = computeServiceCost(
 console.log('Room cost:', roomCost); // 5000
 console.log('Meal service cost', mealServiceCost); // 2500
 ```
+As demonstrated, we can add more services easily since `computeServiceCost` is modular and reusable. However, let's say we're adding a new service for renting kayaks, but this time, the rate is computed by _hours_. Since we want to maintain one _code_ for computing service costs, we can rework the function to accept another argument that defines the _rate scheme_ (`daily` or `hourly`) so it can either compute by service days or by service hours. Observe:
+```js
+function findDays(from, to) {
+  const dateDifference = new Date(to).getTime() - new Date(from).getTime();
+  const days = dateDifference / (1000 * 3600 * 24) + 1;
 
+  return days;
+};
+
+function findHours(from, to) {
+  const dateDifference = new Date(to).getTime() - new Date(from).getTime();
+  const hours = Math.abs(Math.round(dateDifference / 1000 / (60 * 60)));
+
+  return hours;
+};
+
+function computeServiceCost(service, priceTable, rateScheme = 'daily') {
+  let time;
+
+  if (rateScheme === 'daily') {
+    time = findDays(service.dateFrom, service.dateTo);
+  } else if (rateScheme === 'hourly') {
+    time = findHours(service.dateFrom, service.dateTo);
+  } else {
+    throw new Error(`Invalid rate scheme passed: ${rateScheme}`);
+  }
+
+  return time * priceTable[service.type];
+};
+```
+At a glance, the function seems more complicated but I think the abstraction here is considerable. We have one _code_ to maintain and it caters both service days and service hours. However, what happens if we introduce more complexity?
+
+Let's say a new service is being added again for renting function rooms and is also rated hourly. This time the rate differs depending on whether the place is rented during day or night to account for electricity costs. How do we integrate this in `computeServiceCost`?
+
+Well, maybe we can start by adding another rate scheme called `roundTheClock`? And maybe it calls the method `findHoursRoundTheClock`?
+```js
+function computeServiceCost (service, priceTable, rateScheme = 'daily') {
+  let time;
+
+  if (rateScheme === 'daily') {
+    time = findDays(service.dateFrom, service.dateTo);
+  } else if (rateScheme === 'hourly') {
+    time = findHours(service.dateFrom, service.dateTo);
+  } else if (rateScheme === 'roundTheClock') {
+    time = findHoursRoundTheClock(service.dateFrom, service.dateTo);
+  } else {
+    throw new Error(`Invalid rate scheme passed: ${rateScheme}`);
+  }
+
+  return time * priceTable[service.type];
+};
+```
+Since the rates differ during day and night, we can't assign the result to `time` as `time * priceTable[service.type]` may not be the right equation to compute for the service cost. We might also need to return a different value from `findHoursRoundTheClock`. One option is to return an object that has the properties `day` and `night` which indicates the rent hours for both times:
+```js
+function computeServiceCost(service, priceTable, rateScheme = 'daily') {
+  switch(rateScheme) {
+    case 'daily':
+      const time = findDays(service.dateFrom, service.dateTo);
+
+      return time * priceTable[service.type];
+    case 'hourly':
+      const time = findHours(service.dateFrom, service.dateTo);
+
+      return time * priceTable[service.type];
+    case 'roundTheClock':
+      const result = findHoursRoundTheClock(service.dateFrom, service.dateTo);
+      const day = result.day * priceTable[service.type].data;
+      const night = result.night * priceTable[service.type].night;
+
+      return day + night;
+    default:
+      throw new Error(`Invalid rate scheme passed: ${rateScheme}`);
+  }
+};
+```
+Now, the price table should look like this:
+```js
+const FUNCTION_ROOM_RATE = {
+  'FR-A': {
+    day: 6500,
+    night: 8000,
+  },
+};
+```
+Notice how we're complicating `computeServiceCost` to match the requirements for the new service. We had to supply a new `rateScheme`, then reworked return value to cater the new computation, and finally, expect `priceTable` to have 2 types of structure / format.
