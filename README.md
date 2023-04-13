@@ -111,7 +111,7 @@ There are <ins>2 important takeaways</ins> here:
 - Unless we know the full roadmap of features, _we cannot predict every scenario_.
 - Principles and any system of ideas serve as guides to help us tackle problems in programming. However, they should not be treated as the rule.
 
-### [WIP] One Abstraction for Everything
+### One Abstraction for Everything
 Another form of over abstraction is when reusable code tries to handle every possible usage. Ideally, when there are identical implementations, we make the code reusable. However, sometimes a consumer requires a different behavior from that code that may result to massive rework to maintain backwards compatibility. Rather than keeping it simple by localizing the implementation to the specific consumer, we try to modify the reusable code to fit every requirement. For example:
 
 Let's say we have a generic function for computing rent and service cost in a beach resort. The computation is based on the number of service days and the type of availed service.
@@ -196,7 +196,7 @@ function computeServiceCost(service, priceTable, rateScheme = 'daily') {
   return time * priceTable[service.type];
 };
 ```
-At a glance, the function seems more complicated but I think the abstraction here is considerable. We have one code to maintain and it caters both service days and service hours. However, what happens if we introduce more complexity?
+Now, the function seems more complicated but I think the abstraction here is considerable. We have one code to maintain and it caters both service days and service hours. However, what happens if we introduce more complexity?
 
 Let's say a new service is being added again for renting function rooms and is also rated hourly. This time the rate varies depending on whether the place is rented during day or night to account for electricity costs. How do we integrate this in `computeServiceCost`?
 
