@@ -131,7 +131,7 @@ function computeServiceCost(service, priceTable) {
 ```
 Here `computeServiceCost` takes in a `service` object and a `priceTable` object. It calculates the total cost of the service requested by the client by first calling `findDays` to get the number of days of service. Next, it multiplies the days by the rate of the service type based on `priceTable`. Finally, the function returns the total service cost.
 
-Below shows how the function is used when computing costs for renting rooms and meal services:
+Below is how we use the function when computing costs for renting rooms and meal services:
 ```js
 const ROOM_RATES = {
   SINGLE: 1000,
@@ -166,7 +166,7 @@ const mealServiceCost = computeServiceCost(
 console.log('Room cost:', roomCost); // 5000
 console.log('Meal service cost', mealServiceCost); // 2500
 ```
-As demonstrated, we can add more services easily since `computeServiceCost` is modular and reusable. However, let's say we're adding a new service for renting kayaks, but this time, the rate is computed by _hours_. Since we want to maintain one _code_ for computing service costs, we can rework the function to accept another argument that defines the _rate scheme_ (`daily` or `hourly`) so it can either compute by service days or by service hours. Observe:
+As demonstrated, we can add more services easily since `computeServiceCost` is modular and reusable. However, let's say we're adding a new service for renting kayaks, but this time, the rate is computed by _hours_. Since we want to maintain _one code_ for computing service costs, we can rework the function to accept another argument that defines the _rate scheme_ (`daily` or `hourly`) so it can either compute by service days or by service hours. Observe:
 ```js
 function findDays(from, to) {
   const dateDifference = new Date(to).getTime() - new Date(from).getTime();
@@ -196,11 +196,11 @@ function computeServiceCost(service, priceTable, rateScheme = 'daily') {
   return time * priceTable[service.type];
 };
 ```
-At a glance, the function seems more complicated but I think the abstraction here is considerable. We have one _code_ to maintain and it caters both service days and service hours. However, what happens if we introduce more complexity?
+At a glance, the function seems more complicated but I think the abstraction here is considerable. We have one code to maintain and it caters both service days and service hours. However, what happens if we introduce more complexity?
 
-Let's say a new service is being added again for renting function rooms and is also rated hourly. This time the rate differs depending on whether the place is rented during day or night to account for electricity costs. How do we integrate this in `computeServiceCost`?
+Let's say a new service is being added again for renting function rooms and is also rated hourly. This time the rate varies depending on whether the place is rented during day or night to account for electricity costs. How do we integrate this in `computeServiceCost`?
 
-Well, maybe we can start by adding another rate scheme called `roundTheClock`? And maybe it calls the method `findHoursRoundTheClock`?
+Well, maybe we can start by adding another rate scheme called `roundTheClock`? And maybe it calls the function `findHoursRoundTheClock`?
 ```js
 function computeServiceCost (service, priceTable, rateScheme = 'daily') {
   let time;
@@ -218,7 +218,7 @@ function computeServiceCost (service, priceTable, rateScheme = 'daily') {
   return time * priceTable[service.type];
 };
 ```
-Since the rates differ during day and night, we can't assign the result to `time` as `time * priceTable[service.type]` may not be the right equation to compute for the service cost. We might also need to return a different value from `findHoursRoundTheClock`. One option is to return an object that has the properties `day` and `night` which indicates the rent hours for both times:
+Since daily rates differ from nightly rates, we can't assign the result to `time` as `time * priceTable[service.type]` may not be the right equation to compute for the service cost. We might also need to return a different value from `findHoursRoundTheClock`. One option is to return an object that has the properties `day` and `night` which indicates the rent hours for both times:
 ```js
 function computeServiceCost(service, priceTable, rateScheme = 'daily') {
   switch(rateScheme) {
@@ -226,22 +226,25 @@ function computeServiceCost(service, priceTable, rateScheme = 'daily') {
       const time = findDays(service.dateFrom, service.dateTo);
 
       return time * priceTable[service.type];
+
     case 'hourly':
       const time = findHours(service.dateFrom, service.dateTo);
 
       return time * priceTable[service.type];
+
     case 'roundTheClock':
       const result = findHoursRoundTheClock(service.dateFrom, service.dateTo);
       const day = result.day * priceTable[service.type].data;
       const night = result.night * priceTable[service.type].night;
 
       return day + night;
+
     default:
       throw new Error(`Invalid rate scheme passed: ${rateScheme}`);
   }
 };
 ```
-Now, the price table should look like this:
+This way we can structure `priceTable` in this manner:
 ```js
 const FUNCTION_ROOM_RATE = {
   'FR-A': {
@@ -250,4 +253,16 @@ const FUNCTION_ROOM_RATE = {
   },
 };
 ```
-Notice how we're complicating `computeServiceCost` to match the requirements for the new service. We had to supply a new `rateScheme`, then reworked return value to cater the new computation, and finally, expect `priceTable` to have 2 types of structure / format.
+Now, let's take a moment to ask:
+
+_"Was all of this necessary?"_
+
+Could we not have simplified the code by creating separate functions that would cater specifically to each rate scheme? If the goal here is to keep our code modular, then perhaps a better approach would be moving the functions in a separate file that is in module structure:
+```js
+// serviceCostComputer.js
+
+export function computeByDays() { ... }
+export function computeByHours() { ... }
+export function computeRoundTheClock() { ... }
+```
+By doing so, we can maintain a separation of concerns and avoid tightly coupling the functions together, which can make the code more difficult to understand and maintain in the long run. Before we integrate new logic to reusable code, we should always consider if we're actually improving the reusability of the code or if we're simply _encapsulating logic_.
