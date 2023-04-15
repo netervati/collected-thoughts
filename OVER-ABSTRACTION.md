@@ -200,7 +200,7 @@ Let's say a new service is being added again for renting function rooms and is a
 
 Well, maybe we can start by adding another rate scheme called `roundTheClock`? And maybe it calls the function `findHoursRoundTheClock`?
 ```js
-function computeServiceCost (service, priceTable, rateScheme = 'daily') {
+function computeServiceCost(service, priceTable, rateScheme = 'daily') {
   let time;
 
   if (rateScheme === 'daily') {
