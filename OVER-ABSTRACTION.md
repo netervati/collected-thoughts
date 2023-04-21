@@ -253,7 +253,7 @@ function computeServiceCost(service, priceTable, rateScheme = 'daily') {
 
     case 'roundTheClock':
       const result = findHoursRoundTheClock(service.dateFrom, service.dateTo);
-      const day = result.day * priceTable[service.type].data;
+      const day = result.day * priceTable[service.type].day;
       const night = result.night * priceTable[service.type].night;
 
       return day + night;
