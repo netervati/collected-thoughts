@@ -8,5 +8,5 @@ Written here are collection of ideas and realizations that have emerged from my 
 
 - [Effective Unit Testing](https://github.com/netervati/collected-thoughts/blob/main/EFFECTIVE-UNIT-TESTING.md)
 
-  Sharing some of the techniques in creating realiable unit tests.
+  Sharing some of the techniques to help create reliable unit tests.
 
