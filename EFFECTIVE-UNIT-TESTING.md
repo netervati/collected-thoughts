@@ -1,9 +1,9 @@
 ## [WIP] Effective Unit Testing
 
-**Unit Testing** let's us run automated tests against our code at a granular level. We know that automated tests are important because they provide us _quick feedback_ regarding the correctness of our code as opposed to manual testing. In this topic, I will be sharing some of the techniques that I've learned to create effective unit tests.
+**Unit Testing** let's us write and run automated tests against our code at a granular level. We know that automated tests are important because they provide us _quick feedback_ regarding the correctness of our code as opposed to manual testing. In this topic, I will be sharing some of the techniques that I've learned in creating effective unit tests.
 
 ### Use business language
-When describing tests, use business language. It makes the tests _"human"_ readable thus it's easier to understand and maintain:
+When writing tests, use business language. It makes the tests _"human"_ readable and motivates us to describe our code closer to business requirements:
 
 ```rb
 describe Storage do
@@ -91,5 +91,5 @@ end
 ```
 
 ### Test behavior over implementation
-Tests become _fragile_ when the subject being tested is the implementation rather than the behavior. This is because <ins>implementations will often change</ins> as business requirements change. On the other hand, the underlying behaviors will usually remain consistent.
+Tests become _fragile_ when the focus is implementation rather than behavior. This is because <ins>implementations will often change</ins> as business requirements change. On the other hand, the underlying behaviors will usually remain consistent.
 
