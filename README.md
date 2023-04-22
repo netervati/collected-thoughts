@@ -6,7 +6,7 @@ Written here are collection of ideas and realizations that have emerged from my 
 
   Identifying when abstraction is necessary and when it begins causing unnecessary indirection.
 
-- [Effective Unit Tests](https://github.com/netervati/collected-thoughts/blob/main/EFFECTIVE-UNIT-TESTING.md)
+- [Effective Unit Testing](https://github.com/netervati/collected-thoughts/blob/main/EFFECTIVE-UNIT-TESTING.md)
 
   Sharing some of the techniques in creating realiable unit tests.
 
