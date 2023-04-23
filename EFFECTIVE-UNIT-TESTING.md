@@ -47,7 +47,7 @@ describe Wallet do
         wallet = described_class.new(1500)
         wallet.withdraw(200, '2022-05-24')
 
-        expect(@wallet.transaction_history.logs[0]).to eq(
+        expect(@wallet.logs[0]).to eq(
           {
             amount: 200,
             date: '2022-05-24'
@@ -78,7 +78,7 @@ describe Wallet do
 
       # also uses the same setup data
       it 'logs the withdrawal' do
-        expect(@wallet.transaction_history.logs[0]).to eq(
+        expect(@wallet.logs[0]).to eq(
           {
             amount: 500,
             date: '2023-04-23'
@@ -91,5 +91,10 @@ end
 ```
 
 ### Test behavior over implementation
-Tests become _fragile_ when the focus is implementation rather than behavior. This is because <ins>implementations will often change</ins> as business requirements change. On the other hand, the underlying behaviors will usually remain consistent.
+When emphasis is placed on the implementation rather than the behavior, tests tend to become fragile. This is because <ins>implementations will often change</ins> as business requirements change. On the other hand, the underlying behaviors will usually remain consistent.
+
+For clarification, here's how we differentiate the two:
+
+- **Behavior testing** means we're testing the outcome.
+- **Implementation testing** means we're testing how the outcome was produced.
 
