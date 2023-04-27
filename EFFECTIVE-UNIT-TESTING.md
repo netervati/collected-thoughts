@@ -115,7 +115,7 @@ context 'when processing the service' do
       # be consistent when the account is not found, which is to throw a "not found" error.
       #
       # Yet, here we insist on testing the implementation for this behavior.
-      expect(AccountRepository).to receive(:exists?).with(account_id)
+      expect(AccountRepository).to have_received(:exists?).with(account_id)
     end
   end
 end
