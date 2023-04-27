@@ -98,3 +98,40 @@ To simplify, here's how we differentiate the two:
 - **Behavior testing** means we're testing the outcome.
 - **Implementation testing** means we're testing how the outcome was produced.
 
+❌ Bad
+
+```rb
+context 'when processing the service' do
+  context 'and account does not exists' do
+    before do
+      allow(AccountRepository).to receive(:exists?).and_return(false)
+      activate_account_service
+      rescue described_class::NotFoundError # Forced error-catching to allow the expectation below
+    end
+
+    it 'calls the repository with the right parameters' do
+      # Regardless of how the service verifies the existence of the account, the behavior should
+      #
+      # be consistent when the account is not found, which is to throw a "not found" error.
+      #
+      # Yet, here we insist on testing the implementation for this behavior.
+      expect(AccountRepository).to receive(:exists?).with(account_id)
+    end
+  end
+end
+```
+
+✔ Good
+
+```rb
+context 'when processing the service' do
+  context 'and account does not exists' do
+    before { allow(AccountRepository).to receive(:exists?).and_return(false) }
+
+    it 'notifies that the account does not exists' do
+      expect { activate_account_service }.to raise_error(described_class::NotFoundError)
+    end
+  end
+end
+```
+
