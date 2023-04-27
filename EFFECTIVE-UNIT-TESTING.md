@@ -90,10 +90,10 @@ describe Wallet do
 end
 ```
 
-### Test behavior over implementation
-When emphasis is placed on the implementation rather than the behavior, tests tend to become fragile. This is because <ins>implementations will often change</ins> as business requirements change. On the other hand, the underlying behaviors will usually remain consistent.
+### Favor testing behavior over implementation
+When emphasis is placed on the implementation rather than the behavior, tests tend to become fragile. This is because <ins>implementations will often change</ins> as business requirements change. On the other hand, the underlying <ins>behaviors will usually remain consistent</ins>. If you find yourself in a situation where you have to change your tests for every iteration of your code, then the tests might not be providing value.
 
-For clarification, here's how we differentiate the two:
+To simplify, here's how we differentiate the two:
 
 - **Behavior testing** means we're testing the outcome.
 - **Implementation testing** means we're testing how the outcome was produced.
