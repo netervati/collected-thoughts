@@ -3,7 +3,7 @@
 **Unit Testing** let's us write and run automated tests against our code at a granular level. We know that automated tests are important because they provide us _quick feedback_ regarding the correctness of our code as opposed to manual testing. In this topic, I will be sharing some of the techniques that I've learned in creating effective unit tests.
 
 ### Use business language
-When writing tests, use business language. It makes the tests _"human"_ readable and motivates us to describe our code closer to business requirements:
+When writing tests, use business language. It makes the tests _"human"_ readable and motivates us to describe our test closer to business requirements:
 
 ```rb
 describe Storage do
@@ -26,7 +26,7 @@ end
 _Note: You may also check the [Gherkin](https://cucumber.io/docs/gherkin/reference/) syntax for reference._
 
 ### Setup and Teardown
-When testing state with multiple assertions, use the setup and teardown technique. This will reduce unnecessary duplication of code and make the test more readable.
+When testing state with multiple assertions, use the setup and teardown technique. This will reduce unnecessary duplication of code and make the test leaner.
 
 ❌ Bad
 
