@@ -26,7 +26,7 @@ end
 _Note: You may also check the [Gherkin](https://cucumber.io/docs/gherkin/reference/) syntax for reference._
 
 ### Setup and Teardown
-When your test requires setting up data multiple times, use the setup and teardown method. This will reduce unnecessary duplication of code and make the test more readable.
+When you are testing state with multiple assertions, use the setup and teardown method. This will reduce unnecessary duplication of code and make the test more readable.
 
 ❌ Bad
 
