@@ -103,13 +103,12 @@ To simplify, here's how we differentiate the two:
 ```rb
 context 'when processing the service' do
   context 'and account does not exists' do
-    before do
-      allow(AccountRepository).to receive(:exists?).and_return(false)
-      activate_account_service
-      rescue described_class::NotFoundError # Forced error-catching to allow the expectation below
-    end
+    before { allow(AccountRepository).to receive(:exists?).and_return(false) }
 
     it 'calls the repository with the right parameters' do
+      activate_account_service
+      rescue described_class::NotFoundError # Forced error-catching to allow the assertion below
+
       # Regardless of how the service verifies the existence of the account, the behavior should
       #
       # be consistent when the account is not found, which is to throw a "not found" error.
