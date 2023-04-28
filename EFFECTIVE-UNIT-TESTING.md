@@ -1,4 +1,4 @@
-## [WIP] Effective Unit Testing
+## Effective Unit Testing
 
 **Unit Testing** let's us write and run automated tests against our code at a granular level. We know that automated tests are important because they provide us _quick feedback_ regarding the correctness of our code as opposed to manual testing. In this topic, I will be sharing some of the techniques that I've learned in creating effective unit tests.
 
@@ -133,4 +133,7 @@ context 'when processing the service' do
   end
 end
 ```
+
+### Use interfaces as opposed to mocks
+**Mocks** are incredibly useful test tools for certain patterns. However, in most cases, they are not necessary. If you have a dependency that manages state which is used within the code being tested, then consider creating an interface to fake the dependency.
 
