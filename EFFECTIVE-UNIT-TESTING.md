@@ -102,20 +102,19 @@ To simplify, here's how we differentiate the two:
 
 ```rb
 context 'when processing the service' do
-  context 'and account does not exists' do
-    before { allow(AccountRepository).to receive(:exists?).and_return(false) }
+  it 'calls the repository with the right parameters and returns `true`' do
+    activate_account_service
 
-    it 'calls the repository with the right parameters' do
-      activate_account_service
-      rescue described_class::NotFoundError # Forced error-catching to allow the assertion below
-
-      # Regardless of how the service verifies the existence of the account, the behavior should
-      #
-      # be consistent when the account is not found, which is to throw a "not found" error.
-      #
-      # Yet, here we insist on testing the implementation for this behavior.
-      expect(AccountRepository).to have_received(:exists?).with(account_id)
-    end
+    # Regardless of how the service verifies the existence of the account, the product details
+    #
+    # should clearly define the expected behavior of the service when the account exists or does
+    #
+    # not exists, which is what we're supposed to test. Yet, here we insist on testing the
+    #
+    # implementation for this behavior.
+    expect(AccountRepository).to have_received(:exists?)
+      .with(account_id)
+      .and_return(true)
   end
 end
 ```
