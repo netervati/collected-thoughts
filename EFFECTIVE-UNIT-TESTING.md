@@ -1,6 +1,6 @@
 ## Effective Unit Testing
 
-**Unit Testing** let's us write and run automated tests against our code at a granular level. We know that automated tests are important because they provide us _quick feedback_ regarding the correctness of our code as opposed to manual testing. In this topic, I will be sharing some of the techniques that I've learned in creating effective unit tests.
+**Unit Testing** lets us write and run automated tests against our code at a granular level. We know that automated tests are important because they provide us _quick feedback_ regarding the correctness of our code as opposed to manual testing. In this topic, I will be sharing some of the techniques that I've learned in creating effective unit tests.
 
 ### Use business language
 When writing tests, use business language. It makes the tests _"human"_ readable and motivates us to describe our test closer to business requirements:
@@ -137,5 +137,5 @@ end
 ```
 
 ### Use interfaces as opposed to mocks
-**Mocks** are incredibly useful test doubles for specific patterns, however, they are not necessary in most cases. They provide limited control when it comes to faking complicated objects or external dependencies and it's also easy to overuse them in tests. In a worst-case scenario, you might end up creating mocks that return mocks, which leads to _"code smell"_.
+**Mocks** are incredibly useful test doubles for specific patterns, however, they are not necessary in most cases. They are limited when it comes to faking complicated objects or external dependencies and it's also easy to overuse them in tests. In a worst-case scenario, you might end up creating mocks that return mocks, which leads to _"code smell"_. One way to fake complicated dependencies is by creating custom interfaces.
 
