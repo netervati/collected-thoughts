@@ -137,5 +137,5 @@ end
 ```
 
 ### Use interfaces as opposed to mocks
-**Mocks** are incredibly useful test tools for certain patterns. However, in most cases, they are not necessary. If you have a dependency that manages state which is used within the code being tested, then consider creating an interface to fake the dependency.
+**Mocks** are incredibly useful test doubles for specific patterns, however, they are not necessary in most cases. They provide limited control when it comes to faking complicated objects or external dependencies and it's also easy to overuse them in tests. In a worst-case scenario, you might end up creating mocks that return mocks, which leads to _"code smell"_.
 
