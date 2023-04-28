@@ -127,6 +127,9 @@ context 'when processing the service' do
     before { allow(AccountRepository).to receive(:exists?).and_return(false) }
 
     it 'notifies that the account does not exists' do
+      # Since we're only testing the behavior, this allows our service to be more flexible
+      #
+      # in how we implement the verification for the account's existence.
       expect { activate_account_service }.to raise_error(described_class::NotFoundError)
     end
   end
