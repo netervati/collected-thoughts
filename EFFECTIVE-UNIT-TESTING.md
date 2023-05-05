@@ -124,18 +124,75 @@ end
 ```rb
 context 'when processing the service' do
   context 'and account does not exists' do
-    before { allow(AccountRepository).to receive(:exists?).and_return(false) }
-
     it 'notifies that the account does not exists' do
       # Since we're only testing the behavior, this allows our service to be more flexible
       #
-      # in how we implement the verification for the account's existence.
+      # on how we implement the verification for the account's existence.
       expect { activate_account_service }.to raise_error(described_class::NotFoundError)
     end
   end
 end
 ```
 
-### Use interfaces as opposed to mocks
-**Mocks** are incredibly useful test doubles for specific patterns, however, they are not necessary in most cases. They are limited when it comes to faking complicated objects or external dependencies and it's also easy to overuse them in tests. In a worst-case scenario, you might end up creating mocks that return mocks, which leads to _"code smell"_. One way to fake complicated dependencies is by creating custom interfaces.
+### Lesser mocks and stubs
+Many preach that **Unit Testing** means writing tests for the smallest unit of code, and everything else that's not within the bounds of the code should be mocked or stubbed. I believe that _absolute thinking_ hinders us from discovering tests that actually provides value.
+
+One of the main drawbacks of faking everything is that we dedicate too much time trying to replicate the implementation of the dependencies. Often times, this results to harder to read tests and it can also lead to tests giving false positive results.
+
+❌ Bad
+
+```rb
+describe GetLogsService do
+  let(:formatted_date_from) { '2023-02-01' }
+  let(:formatted_date_to) { '2023-02-02' }
+  let(:logs) { [] }
+
+  subject do
+    described_class.run(
+      date_from: Time.now,
+      date_to: 10.days.from_now
+    )
+  end
+
+  context 'when retrieving recorded logs between filtered dates' do
+    before do
+      # Since we are stubbing the classes here, we are now forced to create isolated tests
+      #
+      # for each class. Also, should we change their return values, this test will not be able
+      #
+      # to detect it since we are stubbing them!
+      allow(DateFormatter).to receive(:format).and_return(formatted_date_from, formatted_date_to)
+      allow(LogRepository).to receive(:list).and_return(logs)
+    end
+
+    it 'returns the logs' do
+      is_expected.to eq(logs)
+    end
+  end
+end
+```
+
+✔ Good
+
+```rb
+describe GetLogsService do
+  subject do
+    described_class.run(
+      date_from: Time.now,
+      date_to: 10.days.from_now
+    )
+  end
+
+  context 'when retrieving recorded logs between filtered dates' do
+    it 'returns the logs' do
+      # Here the test is easier to read, and at the same time, we are also
+      #
+      # testing `DateFormatter.format` and `LogRepository.list` in the background.
+      logs = [create(:logs)]
+
+      is_expected.to eq(logs)
+    end
+  end
+end
+```
 
