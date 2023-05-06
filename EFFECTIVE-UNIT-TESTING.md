@@ -196,7 +196,7 @@ describe GetLogsService do
 end
 ```
 
-### Conclusion
+## Conclusion
 Finding the right techniques to write tests requires time and experience. With so many patterns and philosophies, it's easy to be misled into thinking that every test should be written in only one certain way. However, I believe that developing a pragmatic mindset will enable us to discover better ways to create meaningful tests without being confined to certain ideologies.
 
 
