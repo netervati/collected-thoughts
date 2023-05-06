@@ -137,7 +137,7 @@ end
 ### Lesser mocks and stubs
 Many preach that **Unit Testing** means writing tests for the smallest unit of code, and that everything else that's not within the bounds of the code should be mocked or stubbed. However, I believe that this _absolute thinking_ hinders us from discovering tests that actually provide value.
 
-One of the main drawbacks of faking everything is that we end up dedicating too much time trying to replicate the implementation of the dependencies. This often results in tests that are harder to read and can lead to false positive results.
+One of the main drawbacks of faking everything is that we end up dedicating too much time trying to replicate the implementation of the dependencies. This often results in tests that are harder to read and can lead to false results.
 
 ❌ Bad
 
@@ -195,4 +195,8 @@ describe GetLogsService do
   end
 end
 ```
+
+### Conclusion
+Finding the right techniques to write tests requires time and experience. With so many patterns and philosophies, it's easy to be misled into thinking that every test should be written in only one certain way. However, I believe that developing a pragmatic mindset will enable us to discover better ways to create meaningful tests without being confined to certain ideologies.
+
 
