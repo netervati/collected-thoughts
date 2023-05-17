@@ -1,5 +1,5 @@
 ## Ruby Magic
-After working with **Ruby** for more than a year now, I can definitely say that it is deceptively easy to use. Perhaps it is due to its syntax written in descriptive English which may seem more readable to non-programmers as opposed to C-like languages. However, once we dive deeper, there are certain patterns and implementations that seem too much _"magic"_ compared to how most code are written. Whether this magic leads to better written code or not, I will be documenting them here for future reference.
+After working with **Ruby** for more than a year now, I can definitely say that it is deceptively easy to use. Perhaps it is due to its semantics written in descriptive English which may seem more readable to non-programmers as opposed to C-like languages. However, once we dive deeper, there are certain patterns and implementations that seem too much _"magic"_ compared to how most code are written. Whether this magic leads to better written code or not, I will be documenting them here for future reference.
 
 ### Using `.tap`
 
