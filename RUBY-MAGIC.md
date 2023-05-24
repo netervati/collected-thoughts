@@ -32,7 +32,7 @@ end
 create_new_officer('John', 'Doe') # returns newly created officer
 ```
 
-### Enumerators in `.each`
+### Index in `.each`
 
 🗂Using `.each_with_index`
 - Does not accept parameter
@@ -50,7 +50,7 @@ end
 
 📇 Using `.each.with_index`
 - Accepts an offset parameter (default is 0)
-- Useful for loops that require a _"counter"_ mechanism
+- Useful when a _"counter"_ is needed during iteration
 
 ```rb
 ['Apple', 'Orange', 'Grapes'].each.with_index(1) do |fruit, idx|
