@@ -3,6 +3,9 @@ After working with **Ruby** for more than a year now, I can definitely say that 
 
 ### Using `.tap`
 
+Provides a more terse way to handle performing operations on an object and
+returning the object from a method or assigning it to another variable.
+
 ❌ Traditional way
 
 ```rb
