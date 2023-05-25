@@ -35,6 +35,63 @@ end
 create_new_officer('John', 'Doe') # returns newly created officer
 ```
 
+### Method syntax sugars
+
+❓ Predicate methods
+- Returns a boolean value
+- Useful when evaluating a value or an object's property
+
+```rb
+class Person
+  def initialize(full_name, age, citizenship)
+    @age = age
+    @citizenship = citizenship
+    @full_name = full_name
+  end
+
+  def legal_age?
+    @age >= 18
+  end
+end
+
+person = Person.new('John Doe', 20, 'PHL')
+person.legal_age? # true
+```
+
+❗ Dangerous methods
+- Methods that modify the object's properties
+- Methods that can throw an exception
+
+```rb
+class Fee
+  DEFAULT_FEE = 2.5
+
+  def initialize
+    @amount = DEFAULT_FEE
+  end
+
+  def amount=(value)
+    @amount = value
+  end
+
+  def reset!
+    @amount = DEFAULT_FEE
+  end
+
+  def validate!
+    raise ArgumentError, 'invalid amount set' unless @amount.positive?
+  end
+end
+
+fee = Fee.new
+fee.amount = 0
+fee.validate! # Raises ArgumentError
+
+fee = Fee.new
+fee.amount = 6
+fee.reset! # fee amount is now back to 2.5
+```
+
 ### Index in `.each`
 
 🗂Using `.each_with_index`
