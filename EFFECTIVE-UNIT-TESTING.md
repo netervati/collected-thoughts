@@ -47,7 +47,7 @@ describe Wallet do
         wallet = described_class.new(1500)
         wallet.withdraw(200, '2022-05-24')
 
-        expect(@wallet.logs[0]).to eq(
+        expect(wallet.logs[0]).to eq(
           {
             amount: 200,
             date: '2022-05-24'
