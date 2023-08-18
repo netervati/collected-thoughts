@@ -196,6 +196,58 @@ describe GetLogsService do
 end
 ```
 
+### Sufficient Tests
+One of the common metrics to measure the quality of code in a team or in a company is code coverage. The philosophy is that higher percentage means the codebase is robust. Hence, there is a standard in place to maintain or increase this metric. However, this is unreliable and oftentimes, leads to developers creating meaningless tests.
+
+❌ Bad
+
+```rb
+describe Fees do
+  describe '.matrix' do
+    # There is nothing to test here because the return value is hard-coded
+    #
+    # and will break expectedly if there was an update on the matrix.
+    it 'returns the fee matrix' do
+      expect(described_class.matrix).to eq(
+        local: 0.05,
+        foreign: 0.08
+      )
+    end
+  end
+
+  # Test for `.calculate`
+  # Test for 0 ammount
+  # etc...
+end
+```
+
+✔ Good
+
+```rb
+describe Fees do
+  describe '.calculate' do
+    subject do
+      described_class.calculate(
+        amount: 10_000,
+        type: :foreign
+      )
+    end
+
+    context 'when transaction is international' do
+      # This test provides a demonstration and evidence that the computation
+      #
+      # logic is correct making this valuable.
+      it 'returns 8% of the amount' do
+        is_expected.to eq(800)
+      end
+    end
+  end
+
+
+  # One additional test for local transaction
+end
+```
+
 ## Conclusion
 Finding the right techniques to write tests requires time and experience. With so many patterns and philosophies, it's easy to be misled into thinking that every test should be written in only one certain way. However, I believe that developing a pragmatic mindset will enable us to discover better ways to create meaningful tests without being confined to certain ideologies.
 
