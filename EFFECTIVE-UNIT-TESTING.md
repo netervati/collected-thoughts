@@ -48,10 +48,8 @@ describe Wallet do
         wallet.withdraw(200, '2022-05-24')
 
         expect(wallet.logs[0]).to eq(
-          {
-            amount: 200,
-            date: '2022-05-24'
-          }
+          amount: 200,
+          date: '2022-05-24'
         )
       end
     end
@@ -79,10 +77,8 @@ describe Wallet do
       # also uses the same setup data
       it 'logs the withdrawal' do
         expect(@wallet.logs[0]).to eq(
-          {
-            amount: 500,
-            date: '2023-04-23'
-          }
+          amount: 500,
+          date: '2023-04-23'
         )
       end
     end
