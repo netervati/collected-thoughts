@@ -15,5 +15,5 @@ This is where I document important realizations and interesting ideas that I hav
 
 - [Ruby Magic](https://github.com/netervati/collected-thoughts/blob/main/RUBY-MAGIC.md)
 
-  Everything from preferred patterns, metaprogramming, and more.
+  Demystifying some of Ruby's patterns, built-in functions, and more.
 
