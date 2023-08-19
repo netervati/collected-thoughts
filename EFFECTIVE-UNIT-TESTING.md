@@ -212,7 +212,7 @@ describe Fees do
   end
 
   # Test for `.calculate`
-  # Test for 0 ammount
+  # Test for 0 amount
   # etc...
 end
 ```
@@ -240,7 +240,7 @@ describe Fees do
   end
 
 
-  # One additional test for local transaction
+  # One more test for local transaction
 end
 ```
 
