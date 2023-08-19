@@ -121,3 +121,22 @@ end
 # => 2: Orange
 # => 3: Grapes
 ```
+
+### Eigenclass
+There are two types of methods: instance methods and singleton methods. Instance methods can be accessed when the object is instantiated. On the other hand, singleton methods can be accessed using the class name (e.g. `Profile.types`) because they are instance methods of the _eigenclass_ (or _singleton class_):
+
+```rb
+class Profile
+  def self.types # Profile.types
+    # returns values
+  end
+
+  # or
+
+  class << self # class << Profile
+    def types
+      # return values
+    end
+  end
+end
+```
